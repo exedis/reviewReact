@@ -1,6 +1,23 @@
 import React from "react";
 
 const ReviewForm = () => {
+    /*
+    const addReviewToServer = async () => {
+    try {
+      const response = await axios.post(
+        `https://reviews-b1257-default-rtdb.firebaseio.com/reviews.json`,
+        state
+      );
+      setState({
+        title: "",
+        text: "",
+      });
+      //document.querySelector('#textItem').nodeValue()
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  */
   return (
     <div>
       <form>

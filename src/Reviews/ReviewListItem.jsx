@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-
-
+import React from "react";
 
 const ReviewsListItem = (props) => {
-  const [state, setState] = useState({id:[]});
+
   const deleteReview = () => {
       console.log(id)
   };
