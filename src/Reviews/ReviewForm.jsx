@@ -1,6 +1,6 @@
-import React from "react";
+import React,{useState} from "react";
 
-const ReviewForm = () => {
+const ReviewForm = (props) => {
     /*
     const addReviewToServer = async () => {
     try {
@@ -18,6 +18,13 @@ const ReviewForm = () => {
     }
   };
   */
+ const [state,setState] = useState({title:'',text:''});
+ const onInputHandler = (name,value) => {
+  setState({
+    ...state, [name]:value
+  })
+  console.log('form state',state)
+ }
   return (
     <div>
       <form>
@@ -26,8 +33,8 @@ const ReviewForm = () => {
             Заголовок
           </label>
           <input
-            onChange={(event) => {
-              onInput("title", event.target.value);
+            onInput={(event) => {
+              onInputHandler("title", event.target.value);
             }}
             type="text"
             className="form-control"
@@ -40,8 +47,8 @@ const ReviewForm = () => {
             Текст
           </label>
           <input
-            onChange={(event) => {
-              onInput("text", event.target.value);
+            onInput={(event) => {
+              onInputHandler("text", event.target.value);
             }}
             type="text"
             className="form-control"
@@ -51,7 +58,7 @@ const ReviewForm = () => {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => props.addReview()}
+          onClick={() => props.addReview(state)}
         >
           Отправить
         </button>

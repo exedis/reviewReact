@@ -9,8 +9,7 @@ export function addReview(reviewInfo){
 
 export function loadReviewList(reviewInfo){
     return{
-        type:LOAD_REVIEW_LIST,
-        payload: reviewInfo
+        type:LOAD_REVIEW_LIST
     }
 }
 

@@ -6,9 +6,9 @@ const initialState = {
 }
 export function formReducer(state = initialState, action){
     if(action.type === ADD_REVIEW){
-        let add = state.reviews.push(state.payload)
+        let add = state.form.reviews?.push(action.payload)
         return{
-            ...state, reviews:add
+            ...state.form.reviews, reviews:add
         }
     }
     return state

@@ -1,6 +1,7 @@
-import React,{useState} from "react";
+import React from "react";
 import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
+import { Provider } from 'react-redux'
 import { addReview, loadReviewList } from "./Redux/actions";
 import { rootReducer } from "./Redux/reducers/rootReducer";
 import ReviewForm from "./ReviewForm";
@@ -8,25 +9,24 @@ import ReviewList from "./ReviewList";
 
 const Reviews = () => {
   const store = createStore(rootReducer, applyMiddleware(thunk));
-  const defReviewState = {
-    reviews: [
-      { id: 1, data: 5465465464, title: "Новый товар", text: "Нормас" },
-      { id: 2, data: 5465465464, title: "Новый товар", text: "Нормас" },
-      { id: 3, data: 5465465464, title: "Новый товар", text: "Нормас" },
-    ],
-  };
 
-  const addReviewHandler = () => {
-    store.dispatch(addReview());
+
+  const addReviewHandler = (formState) => {
+    store.dispatch(addReview(formState));
   };
+  store.dispatch(loadReviewList());//def load
 
   const loadReviewListHandler = () => {
     store.dispatch(loadReviewList());
   };
+
+
   return (
     <div>
-      <ReviewForm addReview={addReviewHandler} />
-      <ReviewList loadList={loadReviewListHandler} />
+      <Provider store={store}>
+        <ReviewForm addReview={addReviewHandler} />
+        <ReviewList loadList={loadReviewListHandler} state={store.getState()} />
+      </Provider>
     </div>
   );
 };

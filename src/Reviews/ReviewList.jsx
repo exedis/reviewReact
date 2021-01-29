@@ -1,7 +1,7 @@
 import React from "react";
 import ReviewsListItem from "./ReviewListItem";
 
-const ReviewList = () => {
+const ReviewList = (props) => {
     /*const [state, setState] = useState({ reviews: [] });
     const getReviewsFromServer = async () => {
         try {
@@ -28,7 +28,7 @@ const ReviewList = () => {
   return (
     <div>
       <div className="list-group">
-        {state.reviews?.map((item, index) => {
+        {props.state.list.reviews?.map((item, index) => {
           return (
             <ReviewsListItem
               id={item.id}
