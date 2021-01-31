@@ -23,7 +23,6 @@ const ReviewForm = (props) => {
   setState({
     ...state, [name]:value
   })
-  console.log('form state',state)
  }
   return (
     <div>

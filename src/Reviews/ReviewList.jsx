@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from 'react-redux'
 import ReviewsListItem from "./ReviewListItem";
 
 const ReviewList = (props) => {
@@ -24,11 +25,12 @@ const ReviewList = (props) => {
       useEffect(() => {
         getReviewsFromServer();
       }, []);*/
-
+      const reviews = useSelector(state => state.list)
+      console.log('reviews',reviews)
   return (
     <div>
       <div className="list-group">
-        {props.state.list.reviews?.map((item, index) => {
+        {reviews.reviews?.map((item, index) => {
           return (
             <ReviewsListItem
               id={item.id}

@@ -7,7 +7,7 @@ export function addReview(reviewInfo){
     }
 }
 
-export function loadReviewList(reviewInfo){
+export function loadReviewList(){
     return{
         type:LOAD_REVIEW_LIST
     }

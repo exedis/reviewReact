@@ -12,20 +12,23 @@ const Reviews = () => {
 
 
   const addReviewHandler = (formState) => {
+    console.log('formState',formState)
     store.dispatch(addReview(formState));
   };
-  store.dispatch(loadReviewList());//def load
+  store.dispatch({type:'__INIT__'});//def load
 
   const loadReviewListHandler = () => {
     store.dispatch(loadReviewList());
   };
 
-
+store.subscribe(() => {
+  const state = store.getState()
+})
   return (
     <div>
       <Provider store={store}>
         <ReviewForm addReview={addReviewHandler} />
-        <ReviewList loadList={loadReviewListHandler} state={store.getState()} />
+        <ReviewList/>
       </Provider>
     </div>
   );
