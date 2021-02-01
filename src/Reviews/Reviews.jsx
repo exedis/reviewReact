@@ -2,7 +2,7 @@ import React from "react";
 import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from 'react-redux'
-import { addReview, loadReviewList } from "./Redux/actions";
+import { addReview, deleteReview, loadReviewList } from "./Redux/actions";
 import { rootReducer } from "./Redux/reducers/rootReducer";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
@@ -12,14 +12,15 @@ const Reviews = () => {
 
 
   const addReviewHandler = (formState) => {
-    console.log('formState',formState)
     store.dispatch(addReview(formState));
   };
+
+
   store.dispatch({type:'__INIT__'});//def load
 
-  const loadReviewListHandler = () => {
-    store.dispatch(loadReviewList());
-  };
+//   const loadReviewListHandler = () => {
+//     store.dispatch(loadReviewList());
+//   };
 
 store.subscribe(() => {
   const state = store.getState()

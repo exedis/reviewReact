@@ -1,9 +1,11 @@
 import React from "react";
-import { useSelector } from 'react-redux'
+//import { useSelector } from 'react-redux'
+import { useDispatch, connect } from "react-redux";
+import { deleteReview, editReview } from "./Redux/actions";
 import ReviewsListItem from "./ReviewListItem";
 
-const ReviewList = (props) => {
-    /*const [state, setState] = useState({ reviews: [] });
+const ReviewList = (state) => {
+  /*const [state, setState] = useState({ reviews: [] });
     const getReviewsFromServer = async () => {
         try {
           const response = await axios.get(
@@ -25,24 +27,43 @@ const ReviewList = (props) => {
       useEffect(() => {
         getReviewsFromServer();
       }, []);*/
-      const reviews = useSelector(state => state.list)
-      console.log('reviews',reviews)
+  //const reviews = useSelector(state => state.list)
+  //console.log('reviews',reviews)
+  const dispatch = useDispatch();
+  const deleteReviewHandler = (id) => {
+    dispatch(deleteReview(id));
+  };
+
+  const editReviewHandler = (id) => {
+    dispatch(editReview(id));
+  };
+  // console.log("state", state);
   return (
-    <div>
-      <div className="list-group">
-        {reviews.reviews?.map((item, index) => {
-          return (
-            <ReviewsListItem
-              id={item.id}
-              title={item.title}
-              text={item.text}
-              key={index}
-            />
-          );
-        })}
-      </div>
+    <div className="list-group">
+      {state.list?.map((item, index) => {
+        return (
+          <ReviewsListItem
+            id={item.id}
+            title={item.title}
+            text={item.text}
+            key={index}
+            deleteReview={deleteReviewHandler}
+            editReview={editReviewHandler}
+          />
+        );
+      })}
     </div>
   );
 };
 
-export default ReviewList;
+// const mapDispatchToProps = (state) => {
+//     return state.deleteReview
+// }
+
+const mapStateToProps = (state) => {
+  return {
+    list: state.list.reviews,
+  };
+};
+
+export default connect(mapStateToProps, null)(ReviewList);

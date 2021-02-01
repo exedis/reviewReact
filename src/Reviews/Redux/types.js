@@ -1,2 +1,4 @@
-export const ADD_REVIEW = 'ADD_REVIEW'
+export const ADD_TO_REVIEW_LIST = 'ADD_TO_REVIEW_LIST'
 export const LOAD_REVIEW_LIST = 'LOAD_REVIEW_LIST'
+export const DELETE_REVIEW = 'DELETE_REVIEW'
+export const EDIT_REVIEW = 'EDIT_REVIEW'

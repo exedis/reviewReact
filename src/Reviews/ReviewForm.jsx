@@ -1,4 +1,5 @@
 import React,{useState} from "react";
+import {connect,useSelector} from 'react-redux'
 
 const ReviewForm = (props) => {
     /*
@@ -18,7 +19,13 @@ const ReviewForm = (props) => {
     }
   };
   */
- const [state,setState] = useState({title:'',text:''});
+ const globalState = useSelector(state => state.list)
+console.log('globalState',globalState)
+ const [state,setState] = useState({});
+ const addReviewHandler = (state) => {
+    props.addReview(state)
+}
+
  const onInputHandler = (name,value) => {
   setState({
     ...state, [name]:value
@@ -32,6 +39,7 @@ const ReviewForm = (props) => {
             Заголовок
           </label>
           <input
+          value={state.title}
             onInput={(event) => {
               onInputHandler("title", event.target.value);
             }}
@@ -57,7 +65,7 @@ const ReviewForm = (props) => {
         <button
           type="button"
           className="btn btn-primary"
-          onClick={() => props.addReview(state)}
+          onClick={() => addReviewHandler(state)}
         >
           Отправить
         </button>
@@ -66,4 +74,8 @@ const ReviewForm = (props) => {
   );
 };
 
-export default ReviewForm;
+const mapDispatchToProps = (state) => {
+    return state.addReview
+}
+
+export default connect(null,mapDispatchToProps)(ReviewForm);
