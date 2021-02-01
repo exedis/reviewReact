@@ -1,4 +1,4 @@
-import { ADD_TO_REVIEW_LIST, DELETE_REVIEW, EDIT_REVIEW, LOAD_REVIEW_LIST } from "./types";
+import { ADD_TO_REVIEW_LIST, DELETE_REVIEW, EDIT_REVIEW_BEGIN, EDIT_REVIEW_DONE, LOAD_REVIEW_LIST } from "./types";
 
 export function addReview(reviewInfo){
     return{
@@ -20,9 +20,16 @@ export function deleteReview(id){
     }
 }
 
-export function editReview(id){
+export function editReviewBegin(id){
     return{
-        type:EDIT_REVIEW,
+        type:EDIT_REVIEW_BEGIN,
+        payload: id
+    }
+}
+
+export function editReviewDone(id){
+    return{
+        type:EDIT_REVIEW_DONE,
         payload: id
     }
 }

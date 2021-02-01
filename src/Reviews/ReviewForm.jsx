@@ -19,8 +19,15 @@ const ReviewForm = (props) => {
     }
   };
   */
- const globalState = useSelector(state => state.list)
-console.log('globalState',globalState)
+ const globalStateForm = useSelector(state => state.form)
+ console.log(globalStateForm)
+ let title = '';
+ let titleBtn = 'Отправить';
+ if(globalStateForm.edit){
+  title = 'Изменить комментарий'
+  titleBtn = 'Сохранить изменения';
+ }
+//console.log('globalState',globalState)
  const [state,setState] = useState({});
  const addReviewHandler = (state) => {
     props.addReview(state)
@@ -33,6 +40,7 @@ console.log('globalState',globalState)
  }
   return (
     <div>
+      {title}
       <form>
         <div className="mb-3">
           <label htmlFor="titleItem" className="form-label">
@@ -67,7 +75,7 @@ console.log('globalState',globalState)
           className="btn btn-primary"
           onClick={() => addReviewHandler(state)}
         >
-          Отправить
+          {titleBtn}
         </button>
       </form>
     </div>

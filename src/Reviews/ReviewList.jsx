@@ -1,7 +1,7 @@
 import React from "react";
 //import { useSelector } from 'react-redux'
 import { useDispatch, connect } from "react-redux";
-import { deleteReview, editReview } from "./Redux/actions";
+import { deleteReview, editReviewBegin } from "./Redux/actions";
 import ReviewsListItem from "./ReviewListItem";
 
 const ReviewList = (state) => {
@@ -35,7 +35,7 @@ const ReviewList = (state) => {
   };
 
   const editReviewHandler = (id) => {
-    dispatch(editReview(id));
+    dispatch(editReviewBegin(id));
   };
   // console.log("state", state);
   return (

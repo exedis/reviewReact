@@ -2,7 +2,7 @@ import React from "react";
 import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from 'react-redux'
-import { addReview, deleteReview, loadReviewList } from "./Redux/actions";
+import { addReview } from "./Redux/actions";
 import { rootReducer } from "./Redux/reducers/rootReducer";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";

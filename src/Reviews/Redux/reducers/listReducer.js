@@ -1,4 +1,4 @@
-import {  DELETE_REVIEW,ADD_TO_REVIEW_LIST, LOAD_REVIEW_LIST, EDIT_REVIEW } from "../types"
+import {  DELETE_REVIEW,ADD_TO_REVIEW_LIST, LOAD_REVIEW_LIST, EDIT_REVIEW_BEGIN, EDIT_REVIEW_DONE } from "../types"
 
 const initialState = {
 
@@ -38,13 +38,7 @@ export function listReducer(state = initialState, action){
                     state.reviews = state.reviews.filter(item => item.id !== action.payload)
             }            
             
-        case EDIT_REVIEW:
-            console.log('edit',action.payload)
-            return{
-                ...state, 
-                reviews:
-                    state.reviews.shift(action.payload)
-            }
+        
         default: return state
     }
 
