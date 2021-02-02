@@ -1,4 +1,4 @@
-import { ADD_TO_REVIEW_LIST, DELETE_REVIEW, EDIT_REVIEW_BEGIN, EDIT_REVIEW_DONE, LOAD_REVIEW_LIST } from "./types";
+import { ADD_LOADER, ADD_TO_REVIEW_LIST, DELETE_REVIEW, EDIT_REVIEW_BEGIN, EDIT_REVIEW_DONE, LOAD_REVIEW_LIST, REMOVE_LOADER } from "./types";
 
 export function addReview(reviewInfo){
     return{
@@ -7,16 +7,18 @@ export function addReview(reviewInfo){
     }
 }
 
-export function loadReviewList(){
+export function loadReviewList(reviewInfo){
     return{
-        type:LOAD_REVIEW_LIST
+        type:LOAD_REVIEW_LIST,
+        payload: reviewInfo
     }
 }
 
-export function deleteReview(id){
+
+export function deleteReview(key){
     return{
         type:DELETE_REVIEW,
-        payload: id
+        payload: key
     }
 }
 
@@ -33,11 +35,21 @@ export function editReviewDone(id){
         payload: id
     }
 }
+export function addLoader(){
+    return{
+        type:ADD_LOADER,
+    }
+}
 
-export function loadReviewListAsync(){
+export function removeLoader(){
+    return{
+        type:REMOVE_LOADER,
+    }
+}
+
+export function loadReviewListAsync(reviewInfo){
     return function(dispatch){
-        dispatch(loadReviewList())
-        //dispatch(increment())
-        //dispatch(enableButtons())
+        dispatch(loadReviewList(reviewInfo))
+        dispatch(removeLoader())
     }
 }

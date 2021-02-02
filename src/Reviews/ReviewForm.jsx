@@ -1,43 +1,54 @@
-import React,{useState} from "react";
-import {connect,useSelector} from 'react-redux'
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addReview, editReviewDone } from "./Redux/actions";
 
-const ReviewForm = (props) => {
-    /*
-    const addReviewToServer = async () => {
-    try {
-      const response = await axios.post(
-        `https://reviews-b1257-default-rtdb.firebaseio.com/reviews.json`,
-        state
-      );
-      setState({
-        title: "",
-        text: "",
-      });
-      //document.querySelector('#textItem').nodeValue()
-    } catch (e) {
-      console.log(e);
-    }
-  };
+const ReviewForm = () => {
+  /*
+    
   */
- const globalStateForm = useSelector(state => state.form)
- console.log(globalStateForm)
- let title = '';
- let titleBtn = 'Отправить';
- if(globalStateForm.edit){
-  title = 'Изменить комментарий'
-  titleBtn = 'Сохранить изменения';
- }
-//console.log('globalState',globalState)
- const [state,setState] = useState({});
- const addReviewHandler = (state) => {
-    props.addReview(state)
-}
+  const dispatch = useDispatch();
+  const globalStateForm = useSelector((state) => state);
+  let title = "";
+  let titleBtn = "Отправить";
 
- const onInputHandler = (name,value) => {
-  setState({
-    ...state, [name]:value
-  })
- }
+  const initialState = {
+    title:'',
+    text:''
+  }
+  const [state, setState] = useState(initialState);
+  if (globalStateForm.form.edit) {
+    title = "Изменить комментарий";
+    titleBtn = "Сохранить изменения";
+  }
+  useEffect(() => {
+    if (globalStateForm.form.edit) {
+      setState({
+        id: globalStateForm.list.reviews.filter(item => item.id === globalStateForm.form.editCommentid)[0].id,
+        title: globalStateForm.list.reviews.filter(item => item.id === globalStateForm.form.editCommentid)[0].title,
+        text: globalStateForm.list.reviews.filter(item => item.id === globalStateForm.form.editCommentid)[0].text,
+      });
+    }
+  }, [globalStateForm]);
+
+  const addReviewHandler = (state) => {
+    if (globalStateForm.form.edit) {
+      dispatch(editReviewDone(state));
+    } else {
+      dispatch(addReview(state));
+    }
+    setState(initialState)
+  };
+
+  const onInputHandler = (name, value) => {
+    setState({
+      ...state,
+      [name]: value,
+    });
+  };
+  let loader = '';
+  if(globalStateForm.form.loader){
+    loader = 'Загрузка......';
+  }
   return (
     <div>
       {title}
@@ -47,14 +58,13 @@ const ReviewForm = (props) => {
             Заголовок
           </label>
           <input
-          value={state.title}
+            value={state.title}
             onInput={(event) => {
               onInputHandler("title", event.target.value);
             }}
             type="text"
             className="form-control"
             id="titleItem"
-            aria-describedby="title"
           />
         </div>
         <div className="mb-3">
@@ -65,6 +75,7 @@ const ReviewForm = (props) => {
             onInput={(event) => {
               onInputHandler("text", event.target.value);
             }}
+            value={state.text}
             type="text"
             className="form-control"
             id="textItem"
@@ -78,12 +89,12 @@ const ReviewForm = (props) => {
           {titleBtn}
         </button>
       </form>
+      <br/>
+      <br/>
+      <br/>
+      {loader}
     </div>
   );
 };
 
-const mapDispatchToProps = (state) => {
-    return state.addReview
-}
-
-export default connect(null,mapDispatchToProps)(ReviewForm);
+export default ReviewForm;

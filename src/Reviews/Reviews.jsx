@@ -1,35 +1,57 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
-import { Provider } from 'react-redux'
-import { addReview } from "./Redux/actions";
+import { Provider } from "react-redux";
+import {
+  addLoader,
+  addReview,
+  loadReviewListAsync,
+  removeLoader,
+} from "./Redux/actions";
 import { rootReducer } from "./Redux/reducers/rootReducer";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
+import axios from "axios";
 
 const Reviews = () => {
   const store = createStore(rootReducer, applyMiddleware(thunk));
-
 
   const addReviewHandler = (formState) => {
     store.dispatch(addReview(formState));
   };
 
+  // store.dispatch({type:'__INIT__'});//def load
 
-  store.dispatch({type:'__INIT__'});//def load
+  store.dispatch(addLoader());
+  const getReviewsFromServer = async () => {
+    try {
+      const response = await axios.get(
+        `https://reviews-b1257-default-rtdb.firebaseio.com/reviews.json`
+      );
+      const reviews = [];
+      Object.keys(response.data).forEach((key, index) => {
+        reviews.push({
+          key: key,
+          id: index,
+          title: response.data[key].title,
+          text: response.data[key].text,
+        });
+      });
+      store.dispatch(loadReviewListAsync(reviews));
+      store.dispatch(removeLoader());
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    getReviewsFromServer();
+  });
 
-//   const loadReviewListHandler = () => {
-//     store.dispatch(loadReviewList());
-//   };
-
-store.subscribe(() => {
-  const state = store.getState()
-})
   return (
-    <div>
+    <div className="container md-25">
       <Provider store={store}>
         <ReviewForm addReview={addReviewHandler} />
-        <ReviewList/>
+        <ReviewList />
       </Provider>
     </div>
   );

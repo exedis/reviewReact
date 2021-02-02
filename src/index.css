@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.review{
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.deleteBtn{
+  color: red;
+  cursor: pointer;
+}
+.editBtn{
+  color: blue;
+  cursor: pointer;
+}
