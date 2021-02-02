@@ -6,8 +6,8 @@ import ReviewsListItem from "./ReviewListItem";
 
 const ReviewList = (state) => {
   const dispatch = useDispatch();
-  const deleteReviewHandler = (id) => {
-    dispatch(deleteReview(id));
+  const deleteReviewHandler = (key) => {
+    dispatch(deleteReview(key));
   };
 
   const editReviewHandler = (id) => {
@@ -23,6 +23,7 @@ const ReviewList = (state) => {
             title={item?.title}
             text={item?.text}
             key={index}
+            keyItem={item?.key}
             deleteReview={deleteReviewHandler}
             editReview={editReviewHandler}
           />

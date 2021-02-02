@@ -35,7 +35,8 @@ export function listReducer(state = initialState, action){
         case DELETE_REVIEW:
             let key = state.reviews.filter(item => item.id !== action.payload)
             console.log('key',key)
-            //removeReviewFromServer(key)
+            console.log('action.payload',action.payload)
+            removeReviewFromServer(action.payload)
             return{
                 ...state, 
                 reviews:
