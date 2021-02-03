@@ -1,6 +1,15 @@
 import React from "react";
 
-const ReviewsListItem = (props) => {
+type ReviewsListItemType = {
+  id:number;
+  title:string;
+  text:string;
+  keyItem:string;
+  deleteReview:(a:string) => void;
+  editReview:(a:string) => void;
+}
+
+const ReviewsListItem: React.FC<ReviewsListItemType> = (props) => {
   return (
     <div className="review">
       <div className="d-flex w-100 justify-content-between">

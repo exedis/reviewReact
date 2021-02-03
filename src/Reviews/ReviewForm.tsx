@@ -2,16 +2,36 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addReview, editReviewDone } from "./Redux/actions";
 
-const ReviewForm = () => {
-  /*
+
+type stateTypeReviews = {
+  id:number;
+  title:string;
+  text:string;
+  key:string;
+}
+type stateType = {
+    list: {
+      reviews: stateTypeReviews[]
+    },
+    form: {
+      edit:boolean,
+      editCommentid: undefined,
+      loader:boolean
+    },
+}
     
-  */
+  
+  
+const ReviewForm: React.FC = () => {
+  const selectIsDefState = (state: stateType) => state
   const dispatch = useDispatch();
-  const globalStateForm = useSelector((state) => state);
+  const globalStateForm = useSelector(selectIsDefState);
   let title = "";
   let titleBtn = "Отправить";
 
-  const initialState = {
+  const initialState:stateTypeReviews = {
+    key: "",
+    id: 0,
     title: "",
     text: "",
   };
@@ -20,7 +40,7 @@ const ReviewForm = () => {
     title = "Изменить комментарий";
     titleBtn = "Сохранить изменения";
   }
-  console.log("globalStateForm check", globalStateForm);
+  
   useEffect(() => {
     if (globalStateForm.form.edit) {
       setState({
@@ -38,7 +58,7 @@ const ReviewForm = () => {
     }
   }, [globalStateForm]);
 
-  const addReviewHandler = (state) => {
+  const addReviewHandler = (state:object) => {
     if (state.title && state.text) {
       if (globalStateForm.form.edit) {
         dispatch(editReviewDone(state));
@@ -51,7 +71,7 @@ const ReviewForm = () => {
     }
   };
 
-  const onInputHandler = (name, value) => {
+  const onInputHandler = (name:string, value:string) => {
     setState({
       ...state,
       [name]: value,
@@ -71,7 +91,7 @@ const ReviewForm = () => {
           </label>
           <input
             value={state.title}
-            onInput={(event) => {
+            onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
               onInputHandler("title", event.target.value);
             }}
             type="text"
@@ -84,7 +104,7 @@ const ReviewForm = () => {
             Текст
           </label>
           <input
-            onInput={(event) => {
+            onInput={(event: React.ChangeEvent<HTMLInputElement>) => {
               onInputHandler("text", event.target.value);
             }}
             value={state.text}

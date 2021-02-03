@@ -14,12 +14,12 @@ import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
 //import { getReviewsFromServer } from "./functions/serverFunctions";
 
-const Reviews = () => {
+const Reviews: React.FC = () => {
   const store = createStore(rootReducer, applyMiddleware(thunk));
 
-  const addReviewHandler = (formState) => {
-    store.dispatch(addReview(formState));
-  };
+  // const addReviewHandler = (formState) => {
+  //   store.dispatch(addReview(formState));
+  // };
 
   store.dispatch(addLoader());
   const getReviewsFromServer = async () => {
@@ -27,7 +27,7 @@ const Reviews = () => {
       const response = await axios.get(
         `https://reviews-b1257-default-rtdb.firebaseio.com/reviews.json`
       );
-      const reviews = [];
+      const reviews = new Array;
       Object.keys(response.data).forEach((key, index) => {
         reviews.push({
           key: key,
@@ -49,7 +49,7 @@ const Reviews = () => {
   return (
     <div className="container md-25">
       <Provider store={store}>
-        <ReviewForm addReview={addReviewHandler} />
+        <ReviewForm/>
         <ReviewList />
       </Provider>
     </div>
