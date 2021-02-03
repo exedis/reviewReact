@@ -11,9 +11,10 @@ const ReviewList = (state) => {
   };
 
   const editReviewHandler = (id) => {
+      console.log('editReviewHandler',id)
     dispatch(editReviewBegin(id));
   };
-  console.log('state',state)
+  console.log('state.list',state.list)
   return (
     <div className="list-group">
       {state.list?.map((item, index) => {
@@ -23,7 +24,7 @@ const ReviewList = (state) => {
             title={item?.title}
             text={item?.text}
             key={index}
-            keyItem={item?.key}
+            keyItem={item.key}
             deleteReview={deleteReviewHandler}
             editReview={editReviewHandler}
           />

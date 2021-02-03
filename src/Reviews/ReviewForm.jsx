@@ -12,31 +12,43 @@ const ReviewForm = () => {
   let titleBtn = "Отправить";
 
   const initialState = {
-    title:'',
-    text:''
-  }
+    title: "",
+    text: "",
+  };
   const [state, setState] = useState(initialState);
   if (globalStateForm.form.edit) {
     title = "Изменить комментарий";
     titleBtn = "Сохранить изменения";
   }
+  console.log("globalStateForm check", globalStateForm);
   useEffect(() => {
     if (globalStateForm.form.edit) {
       setState({
-        id: globalStateForm.list.reviews.filter(item => item.id === globalStateForm.form.editCommentid)[0].id,
-        title: globalStateForm.list.reviews.filter(item => item.id === globalStateForm.form.editCommentid)[0].title,
-        text: globalStateForm.list.reviews.filter(item => item.id === globalStateForm.form.editCommentid)[0].text,
+        key: globalStateForm.form.editCommentid,
+        id: globalStateForm.list.reviews.filter(
+          (item) => item.key === globalStateForm.form.editCommentid
+        )[0]?.id,
+        title: globalStateForm.list.reviews.filter(
+          (item) => item.key === globalStateForm.form.editCommentid
+        )[0]?.title,
+        text: globalStateForm.list.reviews.filter(
+          (item) => item.key === globalStateForm.form.editCommentid
+        )[0]?.text,
       });
     }
   }, [globalStateForm]);
 
   const addReviewHandler = (state) => {
-    if (globalStateForm.form.edit) {
-      dispatch(editReviewDone(state));
-    } else {
-      dispatch(addReview(state));
+    if (state.title && state.text) {
+      if (globalStateForm.form.edit) {
+        dispatch(editReviewDone(state));
+      } else {
+        dispatch(addReview(state));
+      }
+      setState(initialState);
+    }else{
+        alert('Заполните поля!')
     }
-    setState(initialState)
   };
 
   const onInputHandler = (name, value) => {
@@ -45,9 +57,9 @@ const ReviewForm = () => {
       [name]: value,
     });
   };
-  let loader = '';
-  if(globalStateForm.form.loader){
-    loader = 'Загрузка......';
+  let loader = "";
+  if (globalStateForm.form.loader) {
+    loader = "Загрузка......";
   }
   return (
     <div>
@@ -89,9 +101,9 @@ const ReviewForm = () => {
           {titleBtn}
         </button>
       </form>
-      <br/>
-      <br/>
-      <br/>
+      <br />
+      <br />
+      <br />
       {loader}
     </div>
   );

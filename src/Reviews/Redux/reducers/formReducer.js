@@ -11,6 +11,10 @@ export function formReducer(state = initialState, action){
 
     switch(action.type){
         case EDIT_REVIEW_BEGIN: 
+            if(!action.payload){
+                console.error('edit begin: error. Key underfined')
+                return state
+            }
             return{
                 ...state, 
                 edit:true,

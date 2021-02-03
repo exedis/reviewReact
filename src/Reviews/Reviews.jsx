@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { applyMiddleware, createStore } from "redux";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
+import axios from "axios";
 import {
   addLoader,
   addReview,
@@ -11,7 +12,7 @@ import {
 import { rootReducer } from "./Redux/reducers/rootReducer";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
-import axios from "axios";
+//import { getReviewsFromServer } from "./functions/serverFunctions";
 
 const Reviews = () => {
   const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -19,8 +20,6 @@ const Reviews = () => {
   const addReviewHandler = (formState) => {
     store.dispatch(addReview(formState));
   };
-
-  // store.dispatch({type:'__INIT__'});//def load
 
   store.dispatch(addLoader());
   const getReviewsFromServer = async () => {
@@ -37,8 +36,8 @@ const Reviews = () => {
           text: response.data[key].text,
         });
       });
-      store.dispatch(loadReviewListAsync(reviews));
-      store.dispatch(removeLoader());
+      store?.dispatch(loadReviewListAsync(reviews));
+      store?.dispatch(removeLoader());
     } catch (e) {
       console.log(e);
     }

@@ -1,48 +1,54 @@
 import {  DELETE_REVIEW,ADD_TO_REVIEW_LIST, LOAD_REVIEW_LIST, EDIT_REVIEW_DONE } from "../types"
-import {addReviewToServer, removeReviewFromServer} from '../../functions/addToServer'
+import {addReviewToServer, removeReviewFromServer, editReviewOnServer, getReviewsFromServer, randomString} from '../../functions/serverFunctions'
 
 const  initialState = {
-        // reviews: [
-        //     { id: 1, data: 5465465464, title: "Новый товар 1", text: "Нормас" },
-        //     { id: 2, data: 5465465464, title: "Новый товар 2", text: "Нормас" },
-        //     { id: 3, data: 5465465464, title: "Новый товар 3", text: "Нормас" },
-        // ],
+        reviews: []
     }
 
 export function listReducer(state = initialState, action){
     switch(action.type){
         case LOAD_REVIEW_LIST: 
-        console.log('reducer action',action)
             return{
                 ...state, 
                 reviews:
                     state.reviews = action.payload
             }
         case ADD_TO_REVIEW_LIST:
-            let last_id = state.reviews[state.reviews.length - 1].id;
-            let newReview = {
-                id:last_id + 1,
+            let reviewKey = randomString()
+            addReviewToServer(reviewKey,{
+                id:state.reviews[state.reviews.length - 1].id + 1,
                 title:action.payload?.title,
                 text:action.payload?.text,
-            }
-            addReviewToServer(newReview)
+            })
             return{
                 ...state, 
                 reviews:
-                    state.reviews.concat([newReview])
+                    state.reviews.concat([{
+                        key:reviewKey,
+                        id:state.reviews[state.reviews.length - 1].id + 1,
+                        title:action.payload?.title,
+                        text:action.payload?.text,
+                    }])
             }         
             
         case DELETE_REVIEW:
-            let key = state.reviews.filter(item => item.id !== action.payload)
-            console.log('key',key)
-            console.log('action.payload',action.payload)
             removeReviewFromServer(action.payload)
             return{
                 ...state, 
                 reviews:
-                    state.reviews = state.reviews.filter(item => item.id !== action.payload)
+                    state.reviews = state.reviews.filter(item => item.key !== action.payload)
             }            
-        case EDIT_REVIEW_DONE: 
+        case EDIT_REVIEW_DONE:
+            let editedReview = {
+                id: action.payload.id,
+                title: action.payload.title,
+                text: action.payload.text,
+            }
+            if(action.payload.key){
+                editReviewOnServer(action.payload.key, editedReview)
+            }else{
+                console.error('key is undefined')
+            }
             return{
                 ...state, 
                 reviews:

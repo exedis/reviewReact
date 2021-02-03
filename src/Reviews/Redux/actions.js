@@ -22,17 +22,17 @@ export function deleteReview(key){
     }
 }
 
-export function editReviewBegin(id){
+export function editReviewBegin(key){
     return{
         type:EDIT_REVIEW_BEGIN,
-        payload: id
+        payload: key
     }
 }
 
-export function editReviewDone(id){
+export function editReviewDone(reviewInfo){
     return{
         type:EDIT_REVIEW_DONE,
-        payload: id
+        payload: reviewInfo
     }
 }
 export function addLoader(){

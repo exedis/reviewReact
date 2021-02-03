@@ -6,14 +6,3 @@ export const rootReducer = combineReducers({
     list: listReducer,
     form: formReducer
 })
-
-/*
-{
-    form: {
-        list: [],
-        form: {},
-    },
-    list: {
-        reviews: [],
-    }
-};*/
