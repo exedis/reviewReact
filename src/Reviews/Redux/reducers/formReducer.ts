@@ -5,9 +5,12 @@ const initialState = {
     editCommentid: undefined,
     loader:false
 }
+ const initialAction = {
+    type : '',
+    payload : '',
+ }
 
-
-export function formReducer(state = initialState, action){
+export function formReducer(state = initialState, action = initialAction){
 
     switch(action.type){
         case EDIT_REVIEW_BEGIN: 

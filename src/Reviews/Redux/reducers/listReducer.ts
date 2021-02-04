@@ -1,22 +1,48 @@
 import {  DELETE_REVIEW,ADD_TO_REVIEW_LIST, LOAD_REVIEW_LIST, EDIT_REVIEW_DONE } from "../types"
-import {addReviewToServer, removeReviewFromServer, editReviewOnServer, getReviewsFromServer, randomString} from '../../functions/serverFunctions'
+import {addReviewToServer, removeReviewFromServer, editReviewOnServer, randomString} from '../../functions/serverFunctions'
 
-const  initialState = {
-        reviews: []
+
+
+type initialStateReviewsType = {
+    key:string;
+    id:null | number;
+    title:string;
+    text:string;
+}
+type initialStateType = {
+    reviews: initialStateReviewsType[]
+}
+const initialState:initialStateType = {
+    reviews: [{
+        key:'',
+        id:0,
+        title:'',
+        text:''
+    }]
+}
+const initialAction = {
+    type : '',
+    payload : {
+        id: 0,
+        key:'',
+        title:'',
+        text:'',
     }
+}
 
-export function listReducer(state = initialState, action){
+export function listReducer(state = initialState, action = initialAction){
     switch(action.type){
         case LOAD_REVIEW_LIST: 
             return{
                 ...state, 
                 reviews:
-                    state.reviews = action.payload
+                    state.reviews.push(action.payload)
             }
         case ADD_TO_REVIEW_LIST:
             let reviewKey = randomString()
             addReviewToServer(reviewKey,{
-                id:state.reviews[state.reviews.length - 1].id + 1,
+                id:1,
+                //id:state.reviews[state.reviews.length - 1].id + 1,
                 title:action.payload?.title,
                 text:action.payload?.text,
             })
@@ -25,18 +51,19 @@ export function listReducer(state = initialState, action){
                 reviews:
                     state.reviews.concat([{
                         key:reviewKey,
-                        id:state.reviews[state.reviews.length - 1].id + 1,
+                        id:1,
+                        //id:state.reviews[state.reviews.length - 1].id + 1,
                         title:action.payload?.title,
                         text:action.payload?.text,
                     }])
             }         
             
         case DELETE_REVIEW:
-            removeReviewFromServer(action.payload)
+            removeReviewFromServer(action.payload.key)
             return{
                 ...state, 
                 reviews:
-                    state.reviews = state.reviews.filter(item => item.key !== action.payload)
+                    state.reviews = state.reviews.filter(item => item.key !== action.payload.key)/////?
             }            
         case EDIT_REVIEW_DONE:
             let editedReview = {

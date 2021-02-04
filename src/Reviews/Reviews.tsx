@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import axios from "axios";
 import {
   addLoader,
-  addReview,
   loadReviewListAsync,
   removeLoader,
 } from "./Redux/actions";

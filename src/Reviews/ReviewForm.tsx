@@ -7,7 +7,7 @@ type stateTypeReviews = {
   id:number;
   title:string;
   text:string;
-  key:string;
+  key:string | undefined;
 }
 type stateType = {
     list: {
@@ -23,9 +23,9 @@ type stateType = {
   
   
 const ReviewForm: React.FC = () => {
-  const selectIsDefState = (state: stateType) => state
+  //const selectIsDefState = (state: stateType) => state
   const dispatch = useDispatch();
-  const globalStateForm = useSelector(selectIsDefState);
+  const globalStateForm = useSelector((state:stateType) => state);
   let title = "";
   let titleBtn = "Отправить";
 
@@ -35,7 +35,7 @@ const ReviewForm: React.FC = () => {
     title: "",
     text: "",
   };
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState<stateTypeReviews>(initialState);
   if (globalStateForm.form.edit) {
     title = "Изменить комментарий";
     titleBtn = "Сохранить изменения";
@@ -58,7 +58,7 @@ const ReviewForm: React.FC = () => {
     }
   }, [globalStateForm]);
 
-  const addReviewHandler = (state:object) => {
+  const addReviewHandler = (state:stateTypeReviews) => {
     if (state.title && state.text) {
       if (globalStateForm.form.edit) {
         dispatch(editReviewDone(state));
