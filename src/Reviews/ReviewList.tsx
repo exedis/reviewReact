@@ -4,17 +4,6 @@ import { deleteReview, editReviewBegin } from "./Redux/actions";
 import ReviewsListItem from "./ReviewListItem";
 
 
-
-type ReviewsListItemType = {
-  id:number;
-  title:string;
-  text:string;
-  key:string;
-  keyItem:string;
-  deleteReview:object;
-  editReview:object
-}
-
 type stateTypeReviews = {
   id:number;
   title:string;
@@ -45,17 +34,19 @@ const ReviewList: React.FC = () => {
   return (
     <div className="list-group">
       {list?.map((item, index) => {
-        return (
-          <ReviewsListItem
-            id={item?.id}
-            title={item?.title}
-            text={item?.text}
-            key={index}
-            keyItem={item.key}
-            deleteReview={deleteReviewHandler}
-            editReview={editReviewHandler}
-          />
+        if(item.key){
+          return (
+            <ReviewsListItem
+              id={item?.id}
+              title={item.title}
+              text={item.text}
+              key={index}
+              keyItem={item.key}
+              deleteReview={deleteReviewHandler}
+              editReview={editReviewHandler}
+            />
         );
+        }
       })}
     </div>
   );

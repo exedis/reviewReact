@@ -36,13 +36,13 @@ export function listReducer(state = initialState, action = initialAction){
             return{
                 ...state, 
                 reviews:
-                    state.reviews.push(action.payload)
+                    state.reviews.concat(action.payload)
             }
         case ADD_TO_REVIEW_LIST:
             let reviewKey = randomString()
+            let arrElem = state.reviews[state.reviews.length - 1]
             addReviewToServer(reviewKey,{
-                id:1,
-                //id:state.reviews[state.reviews.length - 1].id + 1,
+                id: Number(arrElem?.id) + 1,
                 title:action.payload?.title,
                 text:action.payload?.text,
             })
@@ -51,8 +51,7 @@ export function listReducer(state = initialState, action = initialAction){
                 reviews:
                     state.reviews.concat([{
                         key:reviewKey,
-                        id:1,
-                        //id:state.reviews[state.reviews.length - 1].id + 1,
+                        id: Number(arrElem?.id) + 1,
                         title:action.payload?.title,
                         text:action.payload?.text,
                     }])
@@ -63,7 +62,7 @@ export function listReducer(state = initialState, action = initialAction){
             return{
                 ...state, 
                 reviews:
-                    state.reviews = state.reviews.filter(item => item.key !== action.payload.key)/////?
+                    state.reviews = state.reviews.filter(item => item.key !== action.payload.key)
             }            
         case EDIT_REVIEW_DONE:
             let editedReview = {

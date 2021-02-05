@@ -1,5 +1,10 @@
 import { ADD_LOADER, ADD_TO_REVIEW_LIST, DELETE_REVIEW, EDIT_REVIEW_BEGIN, EDIT_REVIEW_DONE, LOAD_REVIEW_LIST, REMOVE_LOADER } from "./types";
 
+type ReviewAction = {
+    type: string
+  }
+type DispatchType = (args: ReviewAction) => ReviewAction
+
 export function addReview(reviewInfo:object){
     return{
         type:ADD_TO_REVIEW_LIST,
@@ -18,7 +23,7 @@ export function loadReviewList(reviewInfo:object){
 export function deleteReview(key:string){
     return{
         type:DELETE_REVIEW,
-        payload: key
+        payload: {key}
     }
 }
 
