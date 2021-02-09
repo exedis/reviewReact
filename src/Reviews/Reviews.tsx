@@ -1,37 +1,41 @@
 import React, { useEffect } from "react";
-import { applyMiddleware, createStore } from "redux";
-import thunk,{ThunkMiddleware} from "redux-thunk";
-import { Provider } from "react-redux";
+//import { applyMiddleware, combineReducers, createStore } from "redux";
+//import thunk,{ThunkMiddleware} from "redux-thunk";
+import { useDispatch } from "react-redux";
 import axios from "axios";
-import {
-  addLoader,
-  loadReviewListAsync,
-  removeLoader,
-} from "./Redux/actions";
-import { rootReducer } from "./Redux/reducers/rootReducer";
+//import { loadReviewList } from "./Redux/actions";
+//import { rootReducer } from "./Redux/reducers/rootReducer";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
+import { loadReviewList } from "./toolkitRedux/toolkitSlice";
+
+
 //import { ADD_LOADER } from "./Redux/types";
 
 // type State = {
 //   foo: string;
 // };
-type Actions = { type: 'ADD_LOADER' } | { type: 'REMOVE_LOADER' };
+//enum
+type Actions = { type: "ADD_LOADER" } | { type: "REMOVE_LOADER" };
 
 const Reviews: React.FC = () => {
-  const store = createStore(rootReducer, applyMiddleware(thunk as ThunkMiddleware<Actions>));
+  // const store = createStore(rootReducer, applyMiddleware(thunk as ThunkMiddleware<Actions>));
+ 
 
-  // const addReviewHandler = (formState) => {
-  //   store.dispatch(addReview(formState));
-  // };
+  const loadReviewListAsync = (reviews: any) => {
+    return async (dispatch: any) => {
+      dispatch(loadReviewList(reviews));
+    };
+  };
 
-  store.dispatch({type:'ADD_LOADER'});
+  //store.dispatch({ type: "ADD_LOADER" });
+  const dispatch = useDispatch();
   const getReviewsFromServer = async () => {
     try {
       const response = await axios.get(
         `https://reviews-b1257-default-rtdb.firebaseio.com/reviews.json`
       );
-      let reviews: Array<object> = []
+      let reviews: Array<object> = [];
       Object.keys(response.data).forEach((key, index) => {
         reviews.push({
           key: key,
@@ -40,8 +44,8 @@ const Reviews: React.FC = () => {
           text: response.data[key].text,
         });
       });
-      store?.dispatch(loadReviewListAsync(reviews));
-     // store?.dispatch(removeLoader({ type: 'REMOVE_LOADER' }));
+       dispatch(loadReviewListAsync(reviews));
+      // store?.dispatch(removeLoader({ type: 'REMOVE_LOADER' }));
     } catch (e) {
       console.log(e);
     }
@@ -52,10 +56,8 @@ const Reviews: React.FC = () => {
 
   return (
     <div className="container md-25">
-      <Provider store={store}>
-        <ReviewForm/>
+        <ReviewForm />
         <ReviewList />
-      </Provider>
     </div>
   );
 };

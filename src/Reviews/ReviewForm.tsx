@@ -36,13 +36,13 @@ const ReviewForm: React.FC = () => {
     text: "",
   };
   const [state, setState] = useState<stateTypeReviews>(initialState);
-  if (globalStateForm.form.edit) {
+  if (globalStateForm.form?.edit) {
     title = "Изменить комментарий";
     titleBtn = "Сохранить изменения";
   }
-  
+  console.log('globalStateForm',globalStateForm)
   useEffect(() => {
-    if (globalStateForm.form.edit) {
+    if (globalStateForm.form?.edit) {
       setState({
         key: globalStateForm.form.editCommentid,
         id: globalStateForm.list.reviews.filter(
@@ -78,7 +78,7 @@ const ReviewForm: React.FC = () => {
     });
   };
   let loader = "";
-  if (globalStateForm.form.loader) {
+  if (globalStateForm.form?.loader) {
     loader = "Загрузка......";
   }
   return (

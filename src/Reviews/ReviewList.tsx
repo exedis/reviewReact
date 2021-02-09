@@ -22,7 +22,7 @@ type stateType = {
 }
 
 const ReviewList: React.FC = () => {
-  const list = useSelector((state:stateType) => state.list.reviews);
+  const list = useSelector((state:stateType) => state.list?.reviews);
   const dispatch = useDispatch();
   const deleteReviewHandler = (key:string) => {
     dispatch(deleteReview(key));
