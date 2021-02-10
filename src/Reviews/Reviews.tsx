@@ -1,26 +1,16 @@
 import React, { useEffect } from "react";
-//import { applyMiddleware, combineReducers, createStore } from "redux";
-//import thunk,{ThunkMiddleware} from "redux-thunk";
 import { useDispatch } from "react-redux";
 import axios from "axios";
-//import { loadReviewList } from "./Redux/actions";
-//import { rootReducer } from "./Redux/reducers/rootReducer";
 import ReviewForm from "./ReviewForm";
 import ReviewList from "./ReviewList";
-import { loadReviewList } from "./toolkitRedux/toolkitSlice";
-
-
-//import { ADD_LOADER } from "./Redux/types";
-
-// type State = {
-//   foo: string;
-// };
-//enum
-type Actions = { type: "ADD_LOADER" } | { type: "REMOVE_LOADER" };
+import {
+  loadReviewList,
+  addLoader,
+  removeLoader,
+} from "./toolkitRedux/toolkitSlice";
 
 const Reviews: React.FC = () => {
-  // const store = createStore(rootReducer, applyMiddleware(thunk as ThunkMiddleware<Actions>));
- 
+  const dispatch = useDispatch();
 
   const loadReviewListAsync = (reviews: any) => {
     return async (dispatch: any) => {
@@ -28,8 +18,8 @@ const Reviews: React.FC = () => {
     };
   };
 
-  //store.dispatch({ type: "ADD_LOADER" });
-  const dispatch = useDispatch();
+  dispatch(addLoader());
+
   const getReviewsFromServer = async () => {
     try {
       const response = await axios.get(
@@ -44,8 +34,8 @@ const Reviews: React.FC = () => {
           text: response.data[key].text,
         });
       });
-       dispatch(loadReviewListAsync(reviews));
-      // store?.dispatch(removeLoader({ type: 'REMOVE_LOADER' }));
+      dispatch(loadReviewListAsync(reviews));
+      dispatch(removeLoader());
     } catch (e) {
       console.log(e);
     }
@@ -56,8 +46,8 @@ const Reviews: React.FC = () => {
 
   return (
     <div className="container md-25">
-        <ReviewForm />
-        <ReviewList />
+      <ReviewForm />
+      <ReviewList />
     </div>
   );
 };

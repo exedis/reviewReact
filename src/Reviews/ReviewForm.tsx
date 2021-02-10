@@ -1,35 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addReview, editReviewDone } from "./Redux/actions";
-
+import { addReview, editReviewDone } from "./toolkitRedux/toolkitSlice";
 
 type stateTypeReviews = {
-  id:number;
-  title:string;
-  text:string;
-  key:string | undefined;
-}
+  id: number;
+  title: string;
+  text: string;
+  key: string | undefined;
+};
 type stateType = {
+  state: {
     list: {
-      reviews: stateTypeReviews[]
-    },
+      reviews: stateTypeReviews[];
+    };
     form: {
-      edit:boolean,
-      editCommentid: undefined,
-      loader:boolean
-    },
-}
-    
-  
-  
+      edit: boolean;
+      editCommentid: undefined;
+      loader: boolean;
+    };
+  };
+};
+
 const ReviewForm: React.FC = () => {
-  //const selectIsDefState = (state: stateType) => state
   const dispatch = useDispatch();
-  const globalStateForm = useSelector((state:stateType) => state);
+  const globalStateForm = useSelector((state: stateType) => state.state);
   let title = "";
   let titleBtn = "Отправить";
 
-  const initialState:stateTypeReviews = {
+  const initialState: stateTypeReviews = {
     key: "",
     id: 0,
     title: "",
@@ -40,7 +38,6 @@ const ReviewForm: React.FC = () => {
     title = "Изменить комментарий";
     titleBtn = "Сохранить изменения";
   }
-  console.log('globalStateForm',globalStateForm)
   useEffect(() => {
     if (globalStateForm.form?.edit) {
       setState({
@@ -58,7 +55,7 @@ const ReviewForm: React.FC = () => {
     }
   }, [globalStateForm]);
 
-  const addReviewHandler = (state:stateTypeReviews) => {
+  const addReviewHandler = (state: stateTypeReviews) => {
     if (state.title && state.text) {
       if (globalStateForm.form.edit) {
         dispatch(editReviewDone(state));
@@ -66,12 +63,12 @@ const ReviewForm: React.FC = () => {
         dispatch(addReview(state));
       }
       setState(initialState);
-    }else{
-        alert('Заполните поля!')
+    } else {
+      alert("Заполните поля!");
     }
   };
 
-  const onInputHandler = (name:string, value:string) => {
+  const onInputHandler = (name: string, value: string) => {
     setState({
       ...state,
       [name]: value,

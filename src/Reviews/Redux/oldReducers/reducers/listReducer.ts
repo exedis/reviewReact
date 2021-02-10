@@ -1,5 +1,5 @@
 import {  DELETE_REVIEW,ADD_TO_REVIEW_LIST, LOAD_REVIEW_LIST, EDIT_REVIEW_DONE } from "../types"
-import {addReviewToServer, removeReviewFromServer, editReviewOnServer, randomString} from '../../functions/serverFunctions'
+import {addReviewToServer, removeReviewFromServer, editReviewOnServer, randomString} from '../../../functions/serverFunctions'
 
 
 
