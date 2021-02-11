@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addReview, editReviewDone } from "./toolkitRedux/toolkitSlice";
+import { randomString } from "./functions/serverFunctions";
+import { addReviews, editReviewDone, StoreReviewType } from "./toolkitRedux/toolkitSlice";
 
-type stateTypeReviews = {
-  id: number;
-  title: string;
-  text: string;
-  key: string | undefined;
-};
+
 type stateType = {
   state: {
     list: {
-      reviews: stateTypeReviews[];
+      reviews: StoreReviewType[];
     };
     form: {
       edit: boolean;
-      editCommentid: undefined;
+      editCommentid: string;
       loader: boolean;
     };
   };
@@ -27,13 +23,13 @@ const ReviewForm: React.FC = () => {
   let title = "";
   let titleBtn = "Отправить";
 
-  const initialState: stateTypeReviews = {
+  const initialState: StoreReviewType = {
     key: "",
     id: 0,
     title: "",
     text: "",
   };
-  const [state, setState] = useState<stateTypeReviews>(initialState);
+  const [state, setState] = useState<StoreReviewType>(initialState);
   if (globalStateForm.form?.edit) {
     title = "Изменить комментарий";
     titleBtn = "Сохранить изменения";
@@ -55,12 +51,12 @@ const ReviewForm: React.FC = () => {
     }
   }, [globalStateForm]);
 
-  const addReviewHandler = (state: stateTypeReviews) => {
+  const addReviewHandler = (state: StoreReviewType) => {
     if (state.title && state.text) {
       if (globalStateForm.form.edit) {
-        dispatch(editReviewDone(state));
+        dispatch(editReviewDone({ key: globalStateForm.form.editCommentid, state }));
       } else {
-        dispatch(addReview(state));
+        dispatch(addReviews({ key: randomString(), state }));
       }
       setState(initialState);
     } else {
@@ -76,7 +72,7 @@ const ReviewForm: React.FC = () => {
   };
   let loader = "";
   if (globalStateForm.form?.loader) {
-    loader = "Загрузка......";
+    loader = "Загрузка.....";
   }
   return (
     <div>
